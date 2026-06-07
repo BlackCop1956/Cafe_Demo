@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Brew Haven — Fresh Coffee. Cozy Vibes.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--brown-900:#1a0e06;--brown-800:#2d1a0a;--brown-700:#3d2512;--brown-600:#5c3d1e;
+--brown-500:#7a5230;--brown-400:#9e7048;--brown-300:#c09060;--brown-200:#d4b08a;
+--brown-100:#e8d5b7;--brown-50:#f5ede0;
+--cream:#faf6ef;--beige:#f0e6d3;--gold:#c8a96e;
+--text-dark:#1a0e06;--text-mid:#5c3d1e;--text-light:#9e7048;
+--white:#fff;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text-dark);overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;width:100%;z-index:999;padding:1.2rem 2.5rem;display:flex;align-items:center;justify-content:space-between;transition:all .4s ease;background:transparent}
+nav.scrolled{background:rgba(26,14,6,.92);backdrop-filter:blur(12px);padding:.9rem 2.5rem;box-shadow:0 2px 30px rgba(0,0,0,.25)}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:var(--cream);letter-spacing:-.5px;text-decoration:none}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{color:var(--cream);text-decoration:none;font-size:.9rem;font-weight:400;letter-spacing:.5px;opacity:.85;transition:opacity .2s}
+.nav-links a:hover{opacity:1}
+.nav-cta{background:var(--gold);color:var(--brown-900);padding:.55rem 1.4rem;border-radius:100px;font-size:.85rem;font-weight:500;text-decoration:none;transition:background .2s,transform .2s}
+.nav-cta:hover{background:var(--brown-200);transform:scale(1.03)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+.hamburger span{width:24px;height:2px;background:var(--cream);border-radius:2px;transition:all .3s}
+.mobile-menu{display:none;position:fixed;top:0;left:0;width:100%;height:100vh;background:var(--brown-900);z-index:9999;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem}
+.mobile-menu.open{display:flex}
+.mobile-menu a{color:var(--cream);text-decoration:none;font-family:'Playfair Display',serif;font-size:2rem;font-weight:400;opacity:0;animation:fadeUp .4s forwards}
+.mobile-close{position:absolute;top:2rem;right:2rem;background:none;border:none;color:var(--cream);font-size:2rem;cursor:pointer}
+
+/* HERO */
+.hero{height:100vh;min-height:650px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1600&q=80') center/cover no-repeat;transform:scale(1.08);animation:heroZoom 18s ease-in-out infinite alternate}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(160deg,rgba(26,14,6,.78) 0%,rgba(45,26,10,.6) 50%,rgba(26,14,6,.5) 100%)}
+.hero-content{position:relative;z-index:2;text-align:center;padding:0 1.5rem;animation:fadeUp .9s ease both}
+.hero-eyebrow{font-size:.8rem;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:1.4rem;opacity:.9}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(3rem,8vw,6.5rem);font-weight:700;color:var(--cream);line-height:1.05;margin-bottom:1.4rem}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero-sub{font-size:clamp(1rem,2.2vw,1.25rem);color:var(--brown-100);max-width:560px;margin:0 auto 2.8rem;line-height:1.7;font-weight:300}
+.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn-primary{background:var(--gold);color:var(--brown-900);padding:.85rem 2.2rem;border-radius:100px;font-size:.95rem;font-weight:500;text-decoration:none;transition:all .25s;display:inline-block}
+.btn-primary:hover{background:var(--cream);transform:translateY(-2px);box-shadow:0 8px 30px rgba(200,169,110,.35)}
+.btn-outline{border:1.5px solid rgba(255,255,255,.45);color:var(--cream);padding:.85rem 2.2rem;border-radius:100px;font-size:.95rem;font-weight:400;text-decoration:none;transition:all .25s;display:inline-block;backdrop-filter:blur(4px)}
+.btn-outline:hover{background:rgba(255,255,255,.1);border-color:var(--cream);transform:translateY(-2px)}
+.hero-scroll{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;color:var(--cream);opacity:.5;font-size:.75rem;letter-spacing:2px;text-transform:uppercase;animation:bounce 2s infinite}
+.scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--cream),transparent)}
+
+/* SECTIONS GENERAL */
+section{padding:6rem 2.5rem}
+.section-label{font-size:.75rem;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:.8rem;display:block}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3rem);font-weight:600;color:var(--brown-800);line-height:1.15;margin-bottom:1.5rem}
+.section-title em{font-style:italic;color:var(--brown-500)}
+.container{max-width:1180px;margin:0 auto}
+
+/* ABOUT */
+.about{background:var(--brown-900);color:var(--cream)}
+.about-inner{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.about .section-title{color:var(--cream)}
+.about-text{font-size:1.05rem;line-height:1.8;color:var(--brown-200);margin-bottom:2rem;font-weight:300}
+.about-img-wrap{position:relative}
+.about-img{width:100%;border-radius:20px;height:480px;object-fit:cover;display:block}
+.about-img-accent{position:absolute;bottom:-1.5rem;left:-1.5rem;width:180px;height:180px;border-radius:16px;object-fit:cover;border:4px solid var(--brown-900)}
+.about-features{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:2rem}
+.about-feat{display:flex;align-items:flex-start;gap:.75rem}
+.feat-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);margin-top:.45rem;flex-shrink:0}
+.feat-text{font-size:.95rem;color:var(--brown-200);font-weight:300}
+.feat-text strong{color:var(--cream);display:block;font-weight:500;font-size:1rem;margin-bottom:.2rem}
+
+/* MENU */
+.menu-section{background:var(--beige)}
+.menu-tabs{display:flex;gap:.5rem;margin-bottom:3rem;flex-wrap:wrap}
+.tab-btn{padding:.55rem 1.4rem;border-radius:100px;border:1.5px solid var(--brown-300);background:transparent;color:var(--brown-600);font-size:.875rem;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif}
+.tab-btn.active,.tab-btn:hover{background:var(--brown-700);color:var(--cream);border-color:var(--brown-700)}
+.menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.5rem}
+.menu-card{background:var(--white);border-radius:20px;overflow:hidden;transition:transform .3s,box-shadow .3s;cursor:pointer}
+.menu-card:hover{transform:translateY(-8px);box-shadow:0 20px 50px rgba(92,61,30,.15)}
+.menu-card-img{width:100%;height:200px;object-fit:cover;display:block;transition:transform .4s}
+.menu-card:hover .menu-card-img{transform:scale(1.06)}
+.menu-card-body{padding:1.25rem}
+.menu-card-name{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:600;color:var(--brown-800);margin-bottom:.4rem}
+.menu-card-desc{font-size:.875rem;color:var(--text-light);line-height:1.6;margin-bottom:.9rem;font-weight:300}
+.menu-card-footer{display:flex;align-items:center;justify-content:space-between}
+.menu-card-price{font-size:1.1rem;font-weight:600;color:var(--brown-700)}
+.add-btn{width:32px;height:32px;border-radius:50%;background:var(--brown-800);color:var(--cream);border:none;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .2s}
+.add-btn:hover{background:var(--gold);transform:scale(1.1)}
+
+/* WHY */
+.why-section{background:var(--cream)}
+.why-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1.5rem;margin-top:3rem}
+.why-card{text-align:center;padding:2.5rem 1.5rem;border-radius:20px;background:var(--white);border:1px solid rgba(200,169,110,.2);transition:all .3s}
+.why-card:hover{background:var(--brown-800);transform:translateY(-6px);box-shadow:0 16px 40px rgba(26,14,6,.15)}
+.why-card:hover .why-icon{background:rgba(200,169,110,.15);color:var(--gold)}
+.why-card:hover .why-title{color:var(--cream)}
+.why-card:hover .why-desc{color:var(--brown-200)}
+.why-icon{width:64px;height:64px;border-radius:50%;background:var(--brown-50);display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;font-size:1.8rem;transition:all .3s;color:var(--brown-700)}
+.why-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:600;color:var(--brown-800);margin-bottom:.6rem;transition:color .3s}
+.why-desc{font-size:.875rem;color:var(--text-light);line-height:1.6;font-weight:300;transition:color .3s}
+
+/* GALLERY */
+.gallery-section{background:var(--brown-800);padding-bottom:7rem}
+.gallery-section .section-title{color:var(--cream)}
+.gallery-grid{display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:repeat(2,220px);gap:1rem;margin-top:3rem}
+.g-img{border-radius:16px;overflow:hidden;position:relative}
+.g-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
+.g-img:hover img{transform:scale(1.08)}
+.g-img:nth-child(1){grid-column:1/6;grid-row:1/2}
+.g-img:nth-child(2){grid-column:6/9;grid-row:1/2}
+.g-img:nth-child(3){grid-column:9/13;grid-row:1/3}
+.g-img:nth-child(4){grid-column:1/5;grid-row:2/3}
+.g-img:nth-child(5){grid-column:5/9;grid-row:2/3}
+.g-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(26,14,6,.3),transparent);opacity:0;transition:opacity .3s}
+.g-img:hover::after{opacity:1}
+
+/* TESTIMONIALS */
+.testimonials{background:var(--beige)}
+.test-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem;margin-top:3rem}
+.test-card{background:var(--white);border-radius:20px;padding:2rem;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s}
+.test-card:hover{transform:translateY(-5px);box-shadow:0 16px 40px rgba(92,61,30,.12)}
+.test-card::before{content:'"';position:absolute;top:.5rem;right:1.5rem;font-family:'Playfair Display',serif;font-size:6rem;color:var(--brown-100);line-height:1;pointer-events:none}
+.test-stars{display:flex;gap:3px;margin-bottom:1rem}
+.star{color:var(--gold);font-size:1rem}
+.test-text{font-size:.95rem;line-height:1.75;color:var(--text-mid);margin-bottom:1.5rem;font-weight:300;position:relative}
+.test-author{display:flex;align-items:center;gap:.75rem}
+.test-avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid var(--brown-200)}
+.test-name{font-weight:500;font-size:.95rem;color:var(--brown-800)}
+.test-role{font-size:.8rem;color:var(--text-light)}
+
+/* CONTACT */
+.contact-section{background:var(--brown-900);color:var(--cream)}
+.contact-inner{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+.contact-section .section-title{color:var(--cream)}
+.contact-items{display:flex;flex-direction:column;gap:1.75rem;margin-top:2rem}
+.contact-item{display:flex;align-items:flex-start;gap:1rem}
+.c-icon{width:44px;height:44px;border-radius:50%;background:rgba(200,169,110,.15);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;color:var(--gold)}
+.c-label{font-size:.8rem;color:var(--brown-300);text-transform:uppercase;letter-spacing:2px;margin-bottom:.3rem}
+.c-val{font-size:1rem;color:var(--cream);font-weight:300;line-height:1.5}
+.map-wrap{border-radius:20px;overflow:hidden;height:350px;background:var(--brown-800);position:relative}
+.map-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;color:var(--brown-300);font-size:.95rem}
+.map-pin{font-size:3rem}
+.social-row{display:flex;gap:1rem;margin-top:2.5rem}
+.soc-btn{width:42px;height:42px;border-radius:50%;border:1px solid rgba(200,169,110,.35);display:flex;align-items:center;justify-content:center;color:var(--brown-300);font-size:.9rem;text-decoration:none;transition:all .25s}
+.soc-btn:hover{background:var(--gold);border-color:var(--gold);color:var(--brown-900)}
+
+/* FOOTER */
+footer{background:var(--brown-900);border-top:1px solid rgba(200,169,110,.15);padding:3rem 2.5rem 2rem}
+.footer-inner{display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem;max-width:1180px;margin:0 auto}
+.footer-brand{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--cream);margin-bottom:.75rem}
+.footer-brand span{color:var(--gold)}
+.footer-tagline{font-size:.9rem;color:var(--brown-300);line-height:1.7;font-weight:300}
+.footer-heading{font-size:.75rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:1.25rem}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:.65rem}
+.footer-links a{color:var(--brown-300);text-decoration:none;font-size:.9rem;font-weight:300;transition:color .2s}
+.footer-links a:hover{color:var(--cream)}
+.footer-bottom{max-width:1180px;margin:2.5rem auto 0;border-top:1px solid rgba(200,169,110,.1);padding-top:1.5rem;display:flex;align-items:center;justify-content:space-between}
+.footer-copy{font-size:.825rem;color:var(--brown-400);font-weight:300}
+
+/* ANIMATIONS */
+@keyframes heroZoom{from{transform:scale(1.08)} to{transform:scale(1.15)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)}}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(-8px)}}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:none}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .about-inner,.contact-inner,.footer-inner{grid-template-columns:1fr}
+  .about-img-wrap{order:-1}
+  .gallery-grid{grid-template-columns:repeat(2,1fr);grid-template-rows:auto}
+  .g-img:nth-child(n){grid-column:auto;grid-row:auto}
+  .about-img{height:320px}
+  .about-img-accent{display:none}
+}
+@media(max-width:680px){
+  nav{padding:1rem 1.25rem}
+  nav.scrolled{padding:.75rem 1.25rem}
+  .nav-links,.nav-cta{display:none}
+  .hamburger{display:flex}
+  section{padding:4.5rem 1.25rem}
+  .hero h1{font-size:2.8rem}
+  .gallery-grid{grid-template-columns:1fr;grid-template-rows:auto}
+  .footer-inner{grid-template-columns:1fr;gap:2rem}
+  .footer-bottom{flex-direction:column;gap:.75rem;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">Brew<span>Haven</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Book a Table</a>
+  <button class="hamburger" id="hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose" aria-label="Close menu">✕</button>
+  <a href="#about" style="animation-delay:.05s">About</a>
+  <a href="#menu" style="animation-delay:.1s">Menu</a>
+  <a href="#gallery" style="animation-delay:.15s">Gallery</a>
+  <a href="#testimonials" style="animation-delay:.2s">Reviews</a>
+  <a href="#contact" style="animation-delay:.25s">Contact</a>
+  <a href="#contact" class="btn-primary" style="animation-delay:.3s">Book a Table</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <span class="hero-eyebrow">Est. 2019 · Mumbai, India</span>
+    <h1>Fresh Coffee.<br><em>Cozy Vibes.</em></h1>
+    <p class="hero-sub">Experience handcrafted coffee, delicious snacks, and a warm atmosphere that feels like home.</p>
+    <div class="hero-btns">
+      <a href="#menu" class="btn-primary">View Menu</a>
+      <a href="#contact" class="btn-outline">Book a Table</a>
+    </div>
+  </div>
+  <div class="hero-scroll" aria-hidden="true">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="about-inner">
+      <div class="reveal">
+        <span class="section-label">Our Story</span>
+        <h2 class="section-title">Where Every Cup<br><em>Tells a Story</em></h2>
+        <p class="about-text">Born from a love of community and craft, Brew Haven opened its doors in 2019 with one simple belief — that great coffee has the power to bring people together. We source our beans from ethical farms across Colombia, Ethiopia, and Sumatra, and roast them locally to unlock their fullest flavour.</p>
+        <p class="about-text">Every corner of our café is designed with intention — from the warm walnut shelves to the golden Edison bulbs — creating a space where you can slow down, connect, and savour every sip.</p>
+        <div class="about-features">
+          <div class="about-feat"><div class="feat-dot"></div><div class="feat-text"><strong>Freshly Brewed</strong>Every cup made to order</div></div>
+          <div class="about-feat"><div class="feat-dot"></div><div class="feat-text"><strong>Organic Ingredients</strong>Sourced responsibly</div></div>
+          <div class="about-feat"><div class="feat-dot"></div><div class="feat-text"><strong>Relaxing Ambience</strong>A true home away</div></div>
+          <div class="about-feat"><div class="feat-dot"></div><div class="feat-text"><strong>Free WiFi</strong>Work-friendly space</div></div>
+        </div>
+      </div>
+      <div class="about-img-wrap reveal">
+        <img class="about-img" src="https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?w=800&q=80" alt="Brew Haven interior" loading="lazy" />
+        <img class="about-img-accent" src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400&q=80" alt="Latte art" loading="lazy" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section class="menu-section" id="menu">
+  <div class="container">
+    <span class="section-label reveal">Our Menu</span>
+    <h2 class="section-title reveal">Handcrafted with<br><em>Passion & Precision</em></h2>
+    <div class="menu-tabs reveal">
+      <button class="tab-btn active" data-tab="all">All</button>
+      <button class="tab-btn" data-tab="coffee">Coffee</button>
+      <button class="tab-btn" data-tab="food">Food</button>
+    </div>
+    <div class="menu-grid" id="menuGrid"></div>
+  </div>
+</section>
+
+<!-- WHY CHOOSE US -->
+<section class="why-section" id="why">
+  <div class="container" style="text-align:center">
+    <span class="section-label reveal">Why Us</span>
+    <h2 class="section-title reveal">The Brew Haven<br><em>Difference</em></h2>
+    <p class="reveal" style="max-width:520px;margin:0 auto;color:var(--text-light);font-weight:300;line-height:1.75">We go beyond great coffee. From the moment you walk in, every detail is curated for your comfort, delight, and inspiration.</p>
+    <div class="why-grid" id="whyGrid"></div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery-section" id="gallery">
+  <div class="container">
+    <span class="section-label reveal" style="color:var(--gold)">Gallery</span>
+    <h2 class="section-title reveal">A Glimpse Into<br><em>Brew Haven</em></h2>
+    <div class="gallery-grid reveal">
+      <div class="g-img"><img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?w=800&q=80" alt="Coffee pour" loading="lazy" /></div>
+      <div class="g-img"><img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&q=80" alt="Espresso" loading="lazy" /></div>
+      <div class="g-img"><img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=600&q=80" alt="Café interior" loading="lazy" /></div>
+      <div class="g-img"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&q=80" alt="Pastries" loading="lazy" /></div>
+      <div class="g-img"><img src="https://images.unsplash.com/photo-1453614512568-c4024d13c247?w=700&q=80" alt="Desserts" loading="lazy" /></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="testimonials">
+  <div class="container" style="text-align:center">
+    <span class="section-label reveal">Reviews</span>
+    <h2 class="section-title reveal">Loved by Our<br><em>Community</em></h2>
+    <div class="test-grid reveal" id="testGrid"></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="container">
+    <div class="contact-inner">
+      <div class="reveal">
+        <span class="section-label">Find Us</span>
+        <h2 class="section-title">Visit Brew Haven</h2>
+        <div class="contact-items">
+          <div class="contact-item">
+            <div class="c-icon">📍</div>
+            <div><div class="c-label">Address</div><div class="c-val">12 Bandra West, Carter Road<br>Mumbai, Maharashtra 400050</div></div>
+          </div>
+          <div class="contact-item">
+            <div class="c-icon">📞</div>
+            <div><div class="c-label">Phone</div><div class="c-val">+91 98765 43210</div></div>
+          </div>
+          <div class="contact-item">
+            <div class="c-icon">🕐</div>
+            <div><div class="c-label">Opening Hours</div><div class="c-val">Mon – Fri: 7:00 AM – 10:00 PM<br>Sat – Sun: 8:00 AM – 11:00 PM</div></div>
+          </div>
+          <div class="contact-item">
+            <div class="c-icon">✉️</div>
+            <div><div class="c-label">Email</div><div class="c-val">hello@brewhaven.in</div></div>
+          </div>
+        </div>
+        <div class="social-row">
+          <a href="#" class="soc-btn" aria-label="Instagram">IG</a>
+          <a href="#" class="soc-btn" aria-label="Facebook">FB</a>
+          <a href="#" class="soc-btn" aria-label="Twitter">TW</a>
+          <a href="#" class="soc-btn" aria-label="YouTube">YT</a>
+        </div>
+      </div>
+      <div class="map-wrap reveal">
+        <div class="map-placeholder">
+          <div class="map-pin">📍</div>
+          <strong style="color:var(--cream)">Brew Haven</strong>
+          <span>12 Carter Road, Bandra West<br>Mumbai, Maharashtra</span>
+          <a href="https://maps.google.com" target="_blank" class="btn-primary" style="margin-top:.5rem;font-size:.85rem">Open in Maps</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">Brew<span>Haven</span></div>
+      <p class="footer-tagline">A sanctuary for coffee lovers. Crafted with care, served with warmth, remembered forever.</p>
+    </div>
+    <div>
+      <div class="footer-heading">Quick Links</div>
+      <ul class="footer-links">
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#menu">Our Menu</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#contact">Book a Table</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-heading">Follow Us</div>
+      <ul class="footer-links">
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">Facebook</a></li>
+        <li><a href="#">Twitter / X</a></li>
+        <li><a href="#">YouTube</a></li>
+        <li><a href="#">TripAdvisor</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2026 Brew Haven. All rights reserved.</span>
+    <span class="footer-copy">Made with ♥ in Mumbai</span>
+  </div>
+</footer>
+
+<script>
+const menuItems = [
+  { tab:'coffee', name:'Cappuccino',      desc:'Velvety espresso with perfectly steamed micro-foam and a hint of cocoa dust.',         price:'₹280', img:'https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400&q=80' },
+  { tab:'coffee', name:'Latte',           desc:'Smooth single-origin espresso layered with silky steamed milk.',                       price:'₹260', img:'https://images.unsplash.com/photo-1561882468-9110e03e0f78?w=400&q=80' },
+  { tab:'coffee', name:'Cold Brew',       desc:'18-hour slow-steeped Ethiopian cold brew, bold and refreshingly smooth.',              price:'₹320', img:'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&q=80' },
+  { tab:'coffee', name:'Mocha',           desc:'Rich espresso with dark Valrhona chocolate and whipped cream.',                        price:'₹310', img:'https://images.unsplash.com/photo-1578374173703-64851de7b22b?w=400&q=80' },
+  { tab:'food',   name:'Butter Croissant',desc:'Flaky, golden, all-butter croissant baked fresh every morning.',                      price:'₹180', img:'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400&q=80' },
+  { tab:'food',   name:'Chocolate Pastry',desc:'Layered dark chocolate danish with Belgian couverture filling.',                      price:'₹210', img:'https://images.unsplash.com/photo-1486887396153-fa416526c108?w=400&q=80' },
+  { tab:'food',   name:'Club Sandwich',   desc:'Triple-decker toasted sourdough with grilled chicken, avocado, and pesto.',           price:'₹390', img:'https://images.unsplash.com/photo-1528736235302-52922df5c122?w=400&q=80' },
+];
+
+const whyItems = [
+  { icon:'☕', title:'Premium Beans',   desc:'Ethically sourced single-origin beans from Colombia, Ethiopia & Sumatra.' },
+  { icon:'🪑', title:'Cozy Interior',   desc:'Hand-crafted wooden interiors with warm lighting and plush seating.' },
+  { icon:'⚡', title:'Fast Service',    desc:'Your perfect cup is ready in under 5 minutes, every time.' },
+  { icon:'🥐', title:'Fresh Bakery',    desc:'All pastries and breads baked in-house daily from scratch.' },
+  { icon:'😊', title:'Friendly Staff',  desc:'Our baristas are trained to make you feel right at home.' },
+];
+
+const testimonials = [
+  { name:'Priya Sharma',    role:'Food Blogger',       text:'Brew Haven has completely ruined all other cafés for me. The cappuccino is the best I\'ve had outside of Italy — silky, bold, and absolutely beautiful latte art.', img:'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&q=80' },
+  { name:'Arjun Mehra',     role:'Software Engineer',  text:'This is my go-to workspace. The free WiFi is fast, the cold brew keeps me going, and the ambience is so peaceful yet energising. Absolutely love this place.',     img:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80' },
+  { name:'Sneha Kulkarni',  role:'Interior Designer',  text:'Even as a designer, I\'m blown away by every detail — the lighting, the wood textures, the plating. Brew Haven is a visual and culinary masterpiece.',              img:'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&q=80' },
+];
+
+function buildMenu(filter = 'all') {
+  const grid = document.getElementById('menuGrid');
+  const items = filter === 'all' ? menuItems : menuItems.filter(i => i.tab === filter);
+  grid.innerHTML = items.map(m => `
+    <div class="menu-card">
+      <div style="overflow:hidden">
+        <img class="menu-card-img" src="${m.img}" alt="${m.name}" loading="lazy" />
+      </div>
+      <div class="menu-card-body">
+        <div class="menu-card-name">${m.name}</div>
+        <div class="menu-card-desc">${m.desc}</div>
+        <div class="menu-card-footer">
+          <span class="menu-card-price">${m.price}</span>
+          <button class="add-btn" aria-label="Add ${m.name}">+</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function buildWhy() {
+  document.getElementById('whyGrid').innerHTML = whyItems.map(w => `
+    <div class="why-card">
+      <div class="why-icon">${w.icon}</div>
+      <div class="why-title">${w.title}</div>
+      <div class="why-desc">${w.desc}</div>
+    </div>
+  `).join('');
+}
+
+function buildTestimonials() {
+  document.getElementById('testGrid').innerHTML = testimonials.map(t => `
+    <div class="test-card">
+      <div class="test-stars">${'★'.repeat(5)}</div>
+      <p class="test-text">${t.text}</p>
+      <div class="test-author">
+        <img class="test-avatar" src="${t.img}" alt="${t.name}" loading="lazy" />
+        <div>
+          <div class="test-name">${t.name}</div>
+          <div class="test-role">${t.role}</div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+buildMenu();
+buildWhy();
+buildTestimonials();
+
+// Tab filtering
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    buildMenu(btn.dataset.tab);
+    setTimeout(() => observeReveal(), 50);
+  });
+});
+
+// Sticky nav
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 60);
+}, { passive: true });
+
+// Mobile menu
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+const mobileClose = document.getElementById('mobileClose');
+hamburger.addEventListener('click', () => mobileMenu.classList.add('open'));
+mobileClose.addEventListener('click', () => mobileMenu.classList.remove('open'));
+mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('open')));
+
+// Scroll reveal
+function observeReveal() {
+  const els = document.querySelectorAll('.reveal:not(.visible)');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  els.forEach(el => io.observe(el));
+}
+observeReveal();
+</script>
+</body>
+</html>
